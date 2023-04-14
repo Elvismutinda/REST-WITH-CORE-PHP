@@ -512,7 +512,7 @@ function updateBooking($bookingInput, $bookingParams){
     }
 }
 
-function bookingTotal($clientid, $roomid, $check_in, $check_out){
+/* function bookingTotal($clientid, $roomid, $check_in, $check_out){
 
     global $conn;
 
@@ -534,5 +534,5 @@ function bookingTotal($clientid, $roomid, $check_in, $check_out){
 
     return $total;
 }
-
+*/
 ?>
