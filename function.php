@@ -326,14 +326,12 @@ function addBooking($bookingInput){
 
     $clientid = mysqli_real_escape_string($conn, $bookingInput['clientid']);
     $roomid = mysqli_real_escape_string($conn, $bookingInput['roomid']);
-    /* $check_in = mysqli_real_escape_string($conn, $bookingInput['check_in']);
-    $check_out = mysqli_real_escape_string($conn, $bookingInput['check_out']); */
 
     if(empty(trim($clientid))){
 
         return error422('Enter Client id');
     }
-    elseif(empty(trim($clientid))){
+    elseif(empty(trim($roomid))){
 
         return error422('Enter Room id');
     }
@@ -367,7 +365,7 @@ function addBooking($bookingInput){
                 'status' => 201,
                 'message' => 'Booking Created Successfully',
             ];
-            header("HTTP/1.0 500 Created");
+            header("HTTP/1.0 201 Created");
             return json_encode($data);
         }else{
             $data = [
@@ -457,6 +455,60 @@ function getBookingList(){
         ];
         header("HTTP/1.0 500 Internal Server Error");
         return json_encode($data);
+    }
+}
+
+function updateBooking($bookingInput, $bookingParams){
+    
+    global $conn;
+
+    if(!isset($bookingParams['bookingid'])){
+
+        return error422('Booking id not found in URL');
+    }elseif($bookingParams['bookingid'] == null){
+
+        return error422('Enter Booking id');
+    }
+
+    $bookingId = mysqli_real_escape_string($conn, $bookingParams['bookingid']);
+
+    $check_out = mysqli_real_escape_string($conn, $bookingInput['check_out']);
+
+    if(empty(trim($check_out))){
+
+        return error422('Enter Check Out Date and Time(YYYY-MM-DD HH:MM:SS)');
+    }
+    else{
+        $query = "UPDATE bookings SET check_out='$check_out' WHERE bookingid='$bookingId' LIMIT 1";
+        $result = mysqli_query($conn, $query);
+
+        $jsonsql = "SELECT * FROM bookings";
+        $jsonresult = mysqli_query($conn, $jsonsql);
+
+        if($result){
+            $jsondata = array();
+            while ($row = mysqli_fetch_assoc($jsonresult)) {
+                $jsondata[] = $row;
+            }
+            $json_data = json_encode($jsondata);
+    
+            $file_name = 'data.json';
+            file_put_contents($file_name, $json_data);
+
+            $data = [
+                'status' => 200,
+                'message' => 'Booking Updated Successfully',
+            ];
+            header("HTTP/1.0 200 Success");
+            return json_encode($data);
+        }else{
+            $data = [
+                'status' => 500,
+                'message' => 'Internal Server Error',
+            ];
+            header("HTTP/1.0 500 Internal Server Error");
+            return json_encode($data);
+        }
     }
 }
 
