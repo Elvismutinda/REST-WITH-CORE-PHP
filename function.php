@@ -41,7 +41,7 @@ function addClient($clientInput){
             while ($row = mysqli_fetch_assoc($jsonresult)) {
                 $jsondata[] = $row;
             }
-            $json_data = json_encode($jsondata);
+            $json_data = json_encode($jsondata) . PHP_EOL;
 
             $file_name = 'data.json';
             file_put_contents($file_name, $json_data);
