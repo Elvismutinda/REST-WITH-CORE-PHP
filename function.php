@@ -129,7 +129,7 @@ function getClient($clientParams){
         }else{
             $data = [
                 'status' => 404,
-                'message' => 'No Client Found',
+                'message' => 'No Such Client Found',
             ];
             header("HTTP/1.0 404 Not Found");
             return json_encode($data);
