@@ -50,7 +50,7 @@ function addClient($clientInput){
                 'status' => 201,
                 'message' => 'Client Created Successfully',
             ];
-            header("HTTP/1.0 500 Created");
+            header("HTTP/1.0 201 Created");
             return json_encode($data);
 
         }else{
@@ -185,7 +185,7 @@ function addRoom($roomInput){
                 'status' => 201,
                 'message' => 'Room Created Successfully',
             ];
-            header("HTTP/1.0 500 Created");
+            header("HTTP/1.0 201 Created");
             return json_encode($data);
         }else{
             $data = [
